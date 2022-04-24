@@ -1,6 +1,9 @@
 var classlogger = 0;
 var classlogger2 = 0;
 
+window.onload= function(){
+on_page_load();
+}
 
 const d =new Date();
 // getting the elements from html
@@ -8,6 +11,7 @@ const maindiv = document.getElementById("maindiv");
 const lefttaskdiv = document.getElementById("left00");
 const alltaskdiv = document.getElementById("all");
 const comtaskdiv = document.getElementById("com");
+const missedtaskdiv = document.getElementById("MISSED89");
 
 
 function opentab(evt , cityname){
@@ -44,11 +48,11 @@ const firebaseApp = firebase.initializeApp({
 const db = firebaseApp.firestore();
 
 const saveData = (event) => {
-  var month_name;
-  var month_prompt = prompt("enter the deadline's month (if feb enter 2)" , nsame);
-  console.log(month_prompt);
-  var date_prompt = prompt("enter the deadline's month (if feb enter 2)", hahdfryt  );
-  console.log(date_prompt);
+  // var month_name;
+  // var month_prompt = prompt("enter the deadline's month (if feb enter 2)" , nsame);
+  // console.log(month_prompt);
+  // var date_prompt = prompt("enter the deadline's month (if feb enter 2)", hahdfryt  );
+  // console.log(date_prompt);
 
   classlogger++;
   console.log(classlogger);
@@ -78,7 +82,7 @@ removebutton.id = div.id  + "r";
 div.appendChild(input);
 // div.appendChild(editbutton);
 div.appendChild(removebutton);
-maindiv.appendChild(div);
+lefttaskdiv.appendChild(div);
 document.body.appendChild(maindiv);
 
   db.collection('users')
@@ -95,6 +99,7 @@ document.body.appendChild(maindiv);
   })
 
 }
+on_page_load();
 }
 
 maindiv.addEventListener('click', checkIt);
@@ -125,72 +130,97 @@ db.collection('users').get().then((snapshot) => {
 
   })
 })
-
+on_page_load();
 }
 
 }
 
 
-db.collection('users').get().then((snapshot) =>  {
-  // console.log(snapshot.docs);
-  snapshot.docs.forEach(doc => {
-    classlogger2++;
-    let taskjkkks = doc.data().task;
-    console.log(doc.data().done)
-    if(doc.data().done === "f"){
-let lef_task_update_reload_div = document.createElement("div");
-lef_task_update_reload_div.id = "done_false_wale_task" + classlogger2;
-lef_task_update_reload_div.className = "taskboxes";
-
-let task_input_box = document.createElement("input");
-task_input_box.readOnly = true;
-task_input_box.value =taskjkkks;
-task_input_box.id = lef_task_update_reload_div.id + "input";
-
-let task_remove_btn_for_left = document.createElement("button");
-task_remove_btn_for_left.innerHTML = "remove";
 
 
-lef_task_update_reload_div.appendChild(task_input_box);
-lef_task_update_reload_div.appendChild(task_remove_btn_for_left);
-lefttaskdiv.appendChild(lef_task_update_reload_div);
-}
+function on_page_load() {
 
+  var first = alltaskdiv.firstElementChild;
+        while (first) {
+            first.remove();
+            first = alltaskdiv.firstElementChild;
+        }
 
-if (doc.data().done === "t"){
-let completed_task_div = document.createElement("div");
-completed_task_div.id = "doen_true_wale_task"  +classlogger2;
-completed_task_div.className = "taskboxes";
+        var first = lefttaskdiv.firstElementChild;
+        while (first) {
+            first.remove();
+            first = lefttaskdiv.firstElementChild;
+        }
 
-let completed_task_input = document.createElement("input");
-completed_task_input.id = completed_task_div.id + "input";
-completed_task_input.readOnly = true;
-completed_task_input.value = taskjkkks;
+        var first = comtaskdiv.firstElementChild;
+        while (first) {
+            first.remove();
+            first = comtaskdiv.firstElementChild;
+        }
 
-completed_task_div.appendChild(completed_task_input);
-comtaskdiv.appendChild(completed_task_div);
+        
 
-}
-    
-
-    // let task_already_there_div = document.createElement("div");
-    // task_already_there_div.id = "firestore_se_aye_task" + classlogger2;
-    // task_already_there_div.className = "taskboxes";
-
-    // let task_input_at = document.createElement("input");
-    // task_input_at.id = task_already_there_div.id + "input";
-    // task_input_at.readOnly = true;
-    // task_input_at.value = taskjkkks;
-
-    // let page_reload_btn_rmv = document.createElement("button");
-    // page_reload_btn_rmv.innerHTML = "remove";
-    
-    // task_already_there_div.appendChild(task_input_at);
-    // task_already_there_div.appendChild(page_reload_btn_rmv);
-
-
-    // // maindiv.appendChild(task_already_there_div);
-    // alltaskdiv.appendChild(task_already_there_div);
+  db.collection('users').get().then((snapshot) =>  {
+    // console.log(snapshot.docs);
+    snapshot.docs.forEach(doc => {
+      classlogger2++;
+      let taskjkkks = doc.data().task;
+      console.log(doc.data().done)
+      if(doc.data().done === "f"){
+  let lef_task_update_reload_div = document.createElement("div");
+  lef_task_update_reload_div.id = "done_false_wale_task" + classlogger2;
+  lef_task_update_reload_div.className = "taskboxes";
+  
+  let task_input_box = document.createElement("input");
+  task_input_box.readOnly = true;
+  task_input_box.value =taskjkkks;
+  task_input_box.id = lef_task_update_reload_div.id + "input";
+  
+  let task_remove_btn_for_left = document.createElement("button");
+  task_remove_btn_for_left.innerHTML = "remove";
+  
+  
+  lef_task_update_reload_div.appendChild(task_input_box);
+  lef_task_update_reload_div.appendChild(task_remove_btn_for_left);
+  lefttaskdiv.appendChild(lef_task_update_reload_div);
+  }
+  
+  
+  if (doc.data().done === "t"){
+  let completed_task_div = document.createElement("div");
+  completed_task_div.id = "doen_true_wale_task"  +classlogger2;
+  completed_task_div.className = "taskboxes";
+  
+  let completed_task_input = document.createElement("input");
+  completed_task_input.id = completed_task_div.id + "input";
+  completed_task_input.readOnly = true;
+  completed_task_input.value = taskjkkks;
+  
+  completed_task_div.appendChild(completed_task_input);
+  comtaskdiv.appendChild(completed_task_div);
+  
+  }
+      
+  
+      let task_already_there_div = document.createElement("div");
+      task_already_there_div.id = "firestore_se_aye_task" + classlogger2;
+      task_already_there_div.className = "taskboxes";
+  
+      let task_input_at = document.createElement("input");
+      task_input_at.id = task_already_there_div.id + "input";
+      task_input_at.readOnly = true;
+      task_input_at.value = taskjkkks;
+  
+      // let page_reload_btn_rmv = document.createElement("button");
+      // page_reload_btn_rmv.innerHTML = "remove";
+      
+      task_already_there_div.appendChild(task_input_at);
+      // task_already_there_div.appendChild(page_reload_btn_rmv);
+  
+  
+      // maindiv.appendChild(task_already_there_div);
+      alltaskdiv.appendChild(task_already_there_div);
+    })
   })
-})
+}
 
