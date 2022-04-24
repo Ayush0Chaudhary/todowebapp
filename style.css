@@ -1,0 +1,145 @@
+body{
+    background-color: #040b21;
+
+}
+
+.navbar {
+    margin-top: -5px;
+    margin-left: -5px;
+    margin-right: -5px ;
+    overflow: hidden;
+    background-color: #101364; 
+    border : none;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+
+}
+
+h1{
+    font-family: 'Lucida Console';
+    color: #d1d1d1;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ 
+}
+
+.navbar button {
+    background-color:#101364 ;
+/* margin: 1%; */
+    font: bold;
+    color: #d1d1d1;
+padding: 14px 16px;
+border: none;
+cursor: pointer; 
+outline: none;
+transition: 0.3s;
+
+
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
+}
+
+.navbar button:hover {
+    background-color: #070a5f;
+}
+
+.navbar button.active {
+    background-color: #040b21;
+}
+
+.tabs {
+    animation: fadeeffect 1s;
+}
+
+@keyframes fadeeffect {
+    from {opacity: 0;}
+    to {
+        opacity: 1;
+    }
+}
+
+
+.add_button{
+    background-color: #040b21;
+    height: 100px;
+
+    width: 100px;
+
+    padding: 14px 16px;
+border: none;
+cursor: pointer; 
+outline: none;
+transition: 0.3s;
+margin-left: -5px;
+}
+.add_button:hover{
+    background-color: rgb(20, 13, 71);
+}
+
+
+
+.button__icon{
+  background-color: inherit;
+  color: white;
+  font-size: 5em;
+  height: 40px;
+  width: 40px;
+}
+
+
+
+.maindiv1 { 
+    display: flex;
+    flex-direction: column;
+
+}
+
+#task00{
+    background-color: #101364;
+    margin-left: 100px;
+    width: 300px;
+    display: block;
+    /* margin: auto; */
+    border: 2px solid white;
+    width: 207px;
+    border-radius: 8px;
+    padding: 7px;
+    box-shadow: 2px 2px 5px #5a93a5;
+    margin-top: -68px;
+    margin-bottom: 44px;
+    color: white;
+}
+
+.taskboxes{
+    border-radius: 5px;
+    padding: 3px;
+    background-color: #101364;
+    border: 2px solid #5d9eb2;
+    box-shadow: 2px 2px 5px white;
+    color: white;
+    margin: 5px;
+    display: block;
+    width: 269px;
+    margin: auto;
+}
+.content {
+    
+    display: none;
+    flex-direction: column;
+
+}

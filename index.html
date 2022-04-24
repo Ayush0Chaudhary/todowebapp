@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAsk PAnda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 id="hhh" class="websiteName"> TAsk PAnda </h1>
+    <script src="index.js" ></script>
+    <div class="navbar">
+        <button class="tabs" onclick="opentab(event , 'left00')">LEFT</button>
+        <button class ="tabs" onclick="opentab(event , 'MISSED89')">MISSED</button>
+        <button class="tabs" onclick="opentab(event, 'com')">COMPLETED</button>
+        <button class="tabs" onclick="opentab(event, 'all')">ALL</button>
+    </div>
+
+        <button  class="add_button" onclick="saveData()" ><span class="button__icon"><ion-icon name="add-circle-outline"></ion-icon></span></button>
+        <input type="text" placeholder="task" id="task00" >
+        <input type="time" id="appt" >
+    
+    <div id="left00" class="content">
+    <h1>left</h1>
+    </div>
+
+    <div id="MISSED89" class="content">
+    <h1>MISSED</h1>
+    </div>
+
+    <div id="com" class="content">
+        <h1>completed task</h1>
+    </div>
+
+    <div id="all" class="content">
+      <h1>all task</h1>
+    </div>    
+
+
+    <div id="maindiv" class="maindiv1">
+
+    </div>
+
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+
+
+<script src="tabs.js"></script>
+
+</body>
+</html>
