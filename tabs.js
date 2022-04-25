@@ -1,8 +1,8 @@
 var classlogger = 0;
 var classlogger2 = 0;
 
-window.onload= function(){
-on_page_load();
+window.onload = function(){
+  on_page_load();
 }
 
 const d =new Date();
@@ -48,6 +48,8 @@ const firebaseApp = firebase.initializeApp({
 const db = firebaseApp.firestore();
 
 const saveData = (event) => {
+
+
   // var month_name;
   // var month_prompt = prompt("enter the deadline's month (if feb enter 2)" , nsame);
   // console.log(month_prompt);
@@ -57,6 +59,9 @@ const saveData = (event) => {
   classlogger++;
   console.log(classlogger);
   const task = document.getElementById("task00").value
+  const deadline = document.getElementById("deadline");
+console.log(deadline.value);
+
 if(!task){
   alert("Please dont leave the field empty");
 }
@@ -88,8 +93,8 @@ document.body.appendChild(maindiv);
   db.collection('users')
   .add({
     task : task,
-    done : "f"
-
+    done : "f",
+    deadline : deadline.value
   })
   .then((docRef) => {
     console.log(docRef.id);
@@ -104,13 +109,14 @@ on_page_load();
 
 maindiv.addEventListener('click', checkIt);
 lefttaskdiv.addEventListener('click', checkIt);
+missedtaskdiv.addEventListener('click' ,checkIt);
 
 function checkIt(event){
   const thebutton = event.target;
 console.log(thebutton.value);
 
 if(thebutton.innerHTML == "remove"){
-console.log( );
+
 console.log(document.getElementById(thebutton.parentElement.id));
 const thetext = document.getElementById(thebutton.parentElement.id + "input").value;
 document.getElementById(thebutton.parentElement.id).remove();
@@ -131,6 +137,11 @@ db.collection('users').get().then((snapshot) => {
   })
 })
 on_page_load();
+}
+
+if(thebutton.innerHTML == "reschedule"){
+  
+const thetext = document.getElementById(thebutton.parentElement.id + "input").value;
 }
 
 }
@@ -157,69 +168,150 @@ function on_page_load() {
             first.remove();
             first = comtaskdiv.firstElementChild;
         }
-
+        var first = missedtaskdiv.firstElementChild;
+        while(first){
+          
+          first.remove();
+          first = missedtaskdiv.firstElementChild;
+        }
         
 
   db.collection('users').get().then((snapshot) =>  {
     // console.log(snapshot.docs);
     snapshot.docs.forEach(doc => {
-      classlogger2++;
-      let taskjkkks = doc.data().task;
-      console.log(doc.data().done)
-      if(doc.data().done === "f"){
-  let lef_task_update_reload_div = document.createElement("div");
-  lef_task_update_reload_div.id = "done_false_wale_task" + classlogger2;
-  lef_task_update_reload_div.className = "taskboxes";
+     console.log(doc.data().deadline.substring(0,4)     );
+
+
+
+     if(parseInt(doc.data().deadline.substring(0,4)) > d.getFullYear()){
+
+      update_task();
+     }
+
+    else if(parseInt(doc.data().deadline.substring(0,4)) == d.getFullYear()){
+       
+      if(parseInt(doc.data().deadline.substring(5,7)) > d.getDate() ){
+        update_task();
+      }
+      else if(parseInt(doc.data().deadline.substring(5,7)) == (d.getMonth()+1)){
+        if(parseInt(doc.data().deadline.substring(8,10)) > d.getDate()){
+            update_task()
+        }
+        else if (parseInt(doc.data().deadline.substring(8,10)) == d.getDate()){
+        if(parseInt(doc.data().deadline.substring(11,13)) > d.getHours()){
+
+          update_task();
+        }
+        else if (parseInt(doc.data().deadline.substring(11,13)) == d.getHours()){
+
+
+          if (parseInt(doc.data().deadline.substring(14,16)) > d.getMinutes()){
+              update_task();
+          }
+          else{
+            missed_task_update();
+          }
+        }
+        else {
+          missed_task_update();
+        }
+
+        }
+        else{
+          missed_task_update();
+        }
+      }
+
+      else{
+        missed_task_update()
+      }
+       
+     }
+    else{
+      missed_task_update();
+       }
+
+       function missed_task_update(){
+         let taskjkkks = doc.data().task;
+        var missed_task_div = document.createElement("div");
+        missed_task_div.id = "missed_task_div_id" + classlogger2;
+        missed_task_div.className = "taskboxes";
+        
+ 
+        var missed_task_input = document.createElement("input");
+        missed_task_input.readOnly = true;   
+        missed_task_input.id = missed_task_div.id + "input";
+        missed_task_input.value = taskjkkks;
+ 
+        var reschedule_btn = document.createElement("button");
+        reschedule_btn.innerHTML = "reschedule";
+ 
+        missed_task_div.appendChild(missed_task_input);
+        missed_task_div.appendChild(reschedule_btn);
+        missedtaskdiv.appendChild(missed_task_div);
+        
+       }
+
+function update_task(){
+  classlogger2++;
+  let taskjkkks = doc.data().task;
+  console.log(doc.data().done)
+  if(doc.data().done === "f"){
+let lef_task_update_reload_div = document.createElement("div");
+lef_task_update_reload_div.id = "done_false_wale_task" + classlogger2;
+lef_task_update_reload_div.className = "taskboxes";
+
+let task_input_box = document.createElement("input");
+task_input_box.readOnly = true;
+task_input_box.value =taskjkkks;
+task_input_box.id = lef_task_update_reload_div.id + "input";
+
+let task_remove_btn_for_left = document.createElement("button");
+task_remove_btn_for_left.innerHTML = "remove";
+
+
+lef_task_update_reload_div.appendChild(task_input_box);
+lef_task_update_reload_div.appendChild(task_remove_btn_for_left);
+lefttaskdiv.appendChild(lef_task_update_reload_div);
+}
+
+
+if (doc.data().done === "t"){
+let completed_task_div = document.createElement("div");
+completed_task_div.id = "doen_true_wale_task"  +classlogger2;
+completed_task_div.className = "taskboxes";
+
+let completed_task_input = document.createElement("input");
+completed_task_input.id = completed_task_div.id + "input";
+completed_task_input.readOnly = true;
+completed_task_input.value = taskjkkks;
+
+completed_task_div.appendChild(completed_task_input);
+comtaskdiv.appendChild(completed_task_div);
+
+}
   
-  let task_input_box = document.createElement("input");
-  task_input_box.readOnly = true;
-  task_input_box.value =taskjkkks;
-  task_input_box.id = lef_task_update_reload_div.id + "input";
+
+  let task_already_there_div = document.createElement("div");
+  task_already_there_div.id = "firestore_se_aye_task" + classlogger2;
+  task_already_there_div.className = "taskboxes";
+
+  let task_input_at = document.createElement("input");
+  task_input_at.id = task_already_there_div.id + "input";
+  task_input_at.readOnly = true;
+  task_input_at.value = taskjkkks;
+
+  // let page_reload_btn_rmv = document.createElement("button");
+  // page_reload_btn_rmv.innerHTML = "remove";
   
-  let task_remove_btn_for_left = document.createElement("button");
-  task_remove_btn_for_left.innerHTML = "remove";
-  
-  
-  lef_task_update_reload_div.appendChild(task_input_box);
-  lef_task_update_reload_div.appendChild(task_remove_btn_for_left);
-  lefttaskdiv.appendChild(lef_task_update_reload_div);
-  }
-  
-  
-  if (doc.data().done === "t"){
-  let completed_task_div = document.createElement("div");
-  completed_task_div.id = "doen_true_wale_task"  +classlogger2;
-  completed_task_div.className = "taskboxes";
-  
-  let completed_task_input = document.createElement("input");
-  completed_task_input.id = completed_task_div.id + "input";
-  completed_task_input.readOnly = true;
-  completed_task_input.value = taskjkkks;
-  
-  completed_task_div.appendChild(completed_task_input);
-  comtaskdiv.appendChild(completed_task_div);
-  
-  }
-      
-  
-      let task_already_there_div = document.createElement("div");
-      task_already_there_div.id = "firestore_se_aye_task" + classlogger2;
-      task_already_there_div.className = "taskboxes";
-  
-      let task_input_at = document.createElement("input");
-      task_input_at.id = task_already_there_div.id + "input";
-      task_input_at.readOnly = true;
-      task_input_at.value = taskjkkks;
-  
-      // let page_reload_btn_rmv = document.createElement("button");
-      // page_reload_btn_rmv.innerHTML = "remove";
-      
-      task_already_there_div.appendChild(task_input_at);
-      // task_already_there_div.appendChild(page_reload_btn_rmv);
-  
-  
-      // maindiv.appendChild(task_already_there_div);
-      alltaskdiv.appendChild(task_already_there_div);
+  task_already_there_div.appendChild(task_input_at);
+  // task_already_there_div.appendChild(page_reload_btn_rmv);
+
+
+  // maindiv.appendChild(task_already_there_div);
+  alltaskdiv.appendChild(task_already_there_div);
+}
+update_task();
     })
   })
 }
