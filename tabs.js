@@ -141,7 +141,20 @@ on_page_load();
 
 if(thebutton.innerHTML == "reschedule"){
   
-const thetext = document.getElementById(thebutton.parentElement.id + "input").value;
+const thetextr = document.getElementById(thebutton.parentElement.id + "input").value;
+document.getElementById(thebutton.parentElement.id).remove();
+var id_of_reschedule_task;
+db.collection('users').get().then((snapshot) => {
+  snapshot.docs.forEach(doc => {
+    if(thetextr == doc.data().task){
+      id_of_reschedule_task = doc.id;
+      db.collection('users').doc(id_of_reschedule_task).update({
+        done : "f"
+      })
+    }
+  })
+})
+
 }
 
 }
