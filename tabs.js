@@ -4,6 +4,10 @@ var classlogger2 = 0;
 window.onload = function(){
   on_page_load();
 }
+var loader  = document.getElementById("preloader")
+window.addEventListener('load' , function(){
+loader.style.display = "none";
+})
 
 const d =new Date();
 // getting the elements from html
